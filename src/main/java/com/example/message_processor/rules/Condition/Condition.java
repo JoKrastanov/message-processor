@@ -1,8 +1,8 @@
-package com.example.message_processor.rules.Condition;
+package com.example.message_processor.rules.condition;
 
 import java.util.List;
 
-import com.example.message_processor.rules.Comparator.Comparator;
+import com.example.message_processor.rules.comparator.Comparator;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

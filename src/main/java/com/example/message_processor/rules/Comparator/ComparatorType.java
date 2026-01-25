@@ -1,8 +1,11 @@
-package com.example.message_processor.rules.Comparator;
+package com.example.message_processor.rules.comparator;
 
-import com.example.message_processor.exception.IllegalOperatorException;
+import com.example.message_processor.rules.dsl.DslEnum;
+import com.example.message_processor.rules.dsl.DslParser;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum ComparatorType 
+public enum ComparatorType implements DslEnum
 {
     EQUALS("=="),
     NOT_EQUALS("!="),
@@ -11,7 +14,9 @@ public enum ComparatorType
     GREATER_OR_EQUAL(">="),
     LESS_OR_EQUAL("<="),
     CONTAINS("contains"),
-    IN("in");
+    IN("in"),
+    DEFINED("defined"),
+    NOT_DEFINED("not_defined");
 
     private final String comparator;
 
@@ -20,21 +25,21 @@ public enum ComparatorType
         this.comparator = comparator;
     }
 
-    public String getcomparator() 
+    @Override
+    @JsonValue
+    public String getValue() 
     {
         return this.comparator;
     }
 
-    public static ComparatorType fromcomparator(String comparator) 
+    @JsonCreator
+    public static ComparatorType fromValue(String comparator) 
     {
-        for (ComparatorType type : values()) 
-        {
-            if (type.comparator.equals(comparator)) 
-            {
-                return type;
-            }
-        }
-        throw new IllegalOperatorException(comparator);
+        return DslParser.fromValue(
+            ComparatorType.class,
+            comparator,
+            "comparator"
+        );
     }
 }
    

@@ -1,4 +1,4 @@
-package com.example.message_processor.rules.Action;
+package com.example.message_processor.rules.action;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class Action 
 {
     private String field;
-    private ActionType operator;
-    private String expressionString;
+    private ActionType actionType;
+    private String expression;
 }

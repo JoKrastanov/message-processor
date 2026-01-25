@@ -1,5 +1,30 @@
-{
-    "rules": [
-
+[
+  {
+    "id": "01",
+    "name": "GetFullname",
+    "description": "Concatinates user.firstName and user.lastName",
+    "condition": {
+      "type": "all",
+      "comparators": [
+          {
+              "field": "user.firstName",
+              "comparatorType": "defined",
+              "value": ""
+          },
+          {
+              "field": "user.lastName",
+              "comparatorType": "defined",
+              "value": ""
+          }
+      ],
+      "subconditions": []
+    },
+    "actions": [
+      {
+          "field": "user.fullName",
+          "actionType": "update",
+          "expression": "${user.firstName} ${user.lastName}"
+      }
     ]
-}
+  }
+]

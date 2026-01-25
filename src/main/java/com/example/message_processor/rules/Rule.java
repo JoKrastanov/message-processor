@@ -1,7 +1,9 @@
 package com.example.message_processor.rules;
 
-import com.example.message_processor.rules.Action.Action;
-import com.example.message_processor.rules.Condition.Condition;
+import java.util.List;
+
+import com.example.message_processor.rules.action.Action;
+import com.example.message_processor.rules.condition.Condition;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,5 +20,5 @@ public class Rule
     private String name;
     private String description;
     private Condition condition;
-    private Action action;
+    private List<Action> actions;
 }

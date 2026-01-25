@@ -1,4 +1,4 @@
-package com.example.message_processor.rules.Comparator;
+package com.example.message_processor.rules.comparator;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

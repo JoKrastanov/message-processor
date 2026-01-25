@@ -1,8 +1,11 @@
-package com.example.message_processor.rules.Action;
+package com.example.message_processor.rules.action;
 
-import com.example.message_processor.exception.IllegalActionException;
+import com.example.message_processor.rules.dsl.DslEnum;
+import com.example.message_processor.rules.dsl.DslParser;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum ActionType 
+public enum ActionType implements DslEnum
 {
     UPDATE("update"),
     CREATE("create"),
@@ -15,20 +18,20 @@ public enum ActionType
         this.action = action;
     }
 
-    public String getAction() 
+    @Override
+    @JsonValue
+    public String getValue() 
     {
         return this.action;
     }
 
-    public static ActionType fromSymbol(String action) 
+    @JsonGetter
+    public static ActionType fromValue(String action)
     {
-        for (ActionType type : values()) 
-        {
-            if (type.action.equals(action)) 
-            {
-                return type;
-            }
-        }
-        throw new IllegalActionException(action);
+        return DslParser.fromValue(
+            ActionType.class,
+            action,
+            "action"
+        );
     }
 }

@@ -1,8 +1,11 @@
-package com.example.message_processor.rules.Condition;
+package com.example.message_processor.rules.condition;
 
-import com.example.message_processor.exception.IllegalConditionException;
+import com.example.message_processor.rules.dsl.DslEnum;
+import com.example.message_processor.rules.dsl.DslParser;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum ConditionType 
+public enum ConditionType implements DslEnum
 {
     ALL("all"),
     ANY("any"),
@@ -15,20 +18,20 @@ public enum ConditionType
         this.condition = condition;
     }
 
-    public String getCondition() 
+    @Override
+    @JsonValue
+    public String getValue() 
     {
         return this.condition;
     }
 
-    public static ConditionType fromSymbol(String condition) 
+    @JsonCreator
+    public static ConditionType fromValue(String condition)
     {
-        for (ConditionType type : values()) 
-        {
-            if (type.condition.equals(condition)) 
-            {
-                return type;
-            }
-        }
-        throw new IllegalConditionException(condition);
+        return DslParser.fromValue(
+            ConditionType.class,
+            condition,
+            "condition"
+        );
     }
 }
