@@ -1,4 +1,4 @@
-package com.example.message_processor.rules.model.Comparator;
+package com.example.message_processor.rules.Comparator;
 
 import com.example.message_processor.exception.IllegalOperatorException;
 

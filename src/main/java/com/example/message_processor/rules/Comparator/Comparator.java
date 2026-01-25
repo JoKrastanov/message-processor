@@ -1,4 +1,4 @@
-package com.example.message_processor.rules.model.Action;
+package com.example.message_processor.rules.Comparator;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Action 
+public class Comparator 
 {
     private String field;
-    private ActionType operator;
-    private String expressionString;
+    private ComparatorType comparatorType;
+    private Object value;
 }

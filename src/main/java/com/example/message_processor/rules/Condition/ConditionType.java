@@ -1,4 +1,4 @@
-package com.example.message_processor.rules.model.Condition;
+package com.example.message_processor.rules.Condition;
 
 import com.example.message_processor.exception.IllegalConditionException;
 

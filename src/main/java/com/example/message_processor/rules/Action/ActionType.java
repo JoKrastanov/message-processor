@@ -1,4 +1,4 @@
-package com.example.message_processor.rules.model.Action;
+package com.example.message_processor.rules.Action;
 
 import com.example.message_processor.exception.IllegalActionException;
 

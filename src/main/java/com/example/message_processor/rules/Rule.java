@@ -1,7 +1,7 @@
-package com.example.message_processor.rules.model;
+package com.example.message_processor.rules;
 
-import com.example.message_processor.rules.model.Action.Action;
-import com.example.message_processor.rules.model.Condition.Condition;
+import com.example.message_processor.rules.Action.Action;
+import com.example.message_processor.rules.Condition.Condition;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
