@@ -19,6 +19,6 @@ public class Rule
     private String id;
     private String name;
     private String description;
-    private Condition condition;
+    private List<Condition> conditions;
     private List<Action> actions;
 }

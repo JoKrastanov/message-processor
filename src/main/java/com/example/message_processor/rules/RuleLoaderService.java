@@ -39,7 +39,7 @@ public class RuleLoaderService
                 this.ruleConfigFilePath
             );
 
-            if(!ruleConfigFile.exists())
+            if (!ruleConfigFile.exists())
             {
                 // Throw error?
             }

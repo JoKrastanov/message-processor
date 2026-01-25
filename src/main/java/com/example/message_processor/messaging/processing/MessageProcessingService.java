@@ -1,14 +1,13 @@
 package com.example.message_processor.messaging.processing;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.example.message_processor.messaging.producer.MessageProducer;
-import com.example.message_processor.rules.Rule;
-import com.example.message_processor.rules.RuleLoaderService;
+import com.example.message_processor.rules.RuleProcessingService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
@@ -20,18 +19,34 @@ import lombok.extern.slf4j.Slf4j;
 public class MessageProcessingService 
 {
     @Nonnull
+    private final ObjectMapper objectMapper;
+
+    @Nonnull
     private final MessageProducer messageProducer;
 
     @Nonnull
-    private final RuleLoaderService ruleLoaderService;
+    private final RuleProcessingService ruleProcessingService;
     
-    public void processMessage(
-        String message
-    )
+    public void processMessage(String message)
     {
-        Map<String, Object> outputMessage = new HashMap<>();
-        List<Rule> rule = ruleLoaderService.getRules();
-        outputMessage.put("key", message);
-        messageProducer.sendMessage(outputMessage);
+        try
+        {
+            Map<String, Object> processedMessage =
+                this.objectMapper.readValue(
+                    message,
+                    new TypeReference<>() {}
+                );
+
+            Map<String, Object> outputMessage = 
+                this.ruleProcessingService.applyRules(
+                    processedMessage
+                );
+            messageProducer.sendMessage(outputMessage);
+        }
+        catch(Exception e)
+        {
+            log.error("Error processing message ;(", e);
+            // TODO: Throw error processing message
+        }
     }
 }

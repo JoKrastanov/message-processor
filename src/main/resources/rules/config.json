@@ -3,7 +3,8 @@
     "id": "01",
     "name": "GetFullname",
     "description": "Concatinates user.firstName and user.lastName",
-    "condition": {
+    "conditions": [
+     {
       "type": "all",
       "comparators": [
           {
@@ -18,7 +19,8 @@
           }
       ],
       "subconditions": []
-    },
+      }
+    ],
     "actions": [
       {
           "field": "user.fullName",
