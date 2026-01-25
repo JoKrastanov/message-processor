@@ -6,8 +6,7 @@ public enum ConditionType
 {
     ALL("all"),
     ANY("any"),
-    NONE("any"),
-    NOT("not");
+    NONE("none");
 
     private final String condition;
 

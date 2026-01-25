@@ -19,5 +19,4 @@ public class Rule
     private String description;
     private Condition condition;
     private Action action;
-    private Boolean enabled;
 }
