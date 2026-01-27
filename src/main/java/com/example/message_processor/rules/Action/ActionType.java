@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum ActionType implements DslEnum
 {
-    UPDATE("update"),
     CREATE("create"),
+    UPDATE("update"),
     REMOVE("remove");
     
     private final String action;

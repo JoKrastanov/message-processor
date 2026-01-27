@@ -25,7 +25,7 @@ public class MessageProducer
         {
             kafkaTemplate.send(
                 this.producerGroupId,
-                "test output"
+                payload.toString()
             ).whenComplete(
                 (result, ex) ->
                 {

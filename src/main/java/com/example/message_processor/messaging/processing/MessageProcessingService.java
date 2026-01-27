@@ -37,11 +37,11 @@ public class MessageProcessingService
                     new TypeReference<>() {}
                 );
 
-            Map<String, Object> outputMessage = 
-                this.ruleProcessingService.applyRules(
-                    processedMessage
-                );
-            messageProducer.sendMessage(outputMessage);
+            this.ruleProcessingService.applyRules(
+                processedMessage
+            );
+
+            messageProducer.sendMessage(processedMessage);
         }
         catch(Exception e)
         {

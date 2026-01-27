@@ -1,6 +1,5 @@
 package com.example.message_processor.rules;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +28,8 @@ public class RuleProcessingService
     @Nonnull
     private final RuleLoaderService ruleLoaderService;
 
-    public Map<String, Object> applyRules(Map<String, Object> message)
+    public void applyRules(Map<String, Object> message)
     {
-        Map<String, Object> output = new HashMap<>();
         log.info("Loading rule-set");
         List<Rule> rules = ruleLoaderService.getRules();
         log.info("Applying rules to message");
@@ -39,18 +37,14 @@ public class RuleProcessingService
             rule ->
                 this.applyRule(
                     rule,
-                    message,
-                    output
+                    message
                 )
         );
-
-        return output;
     }
 
     private void applyRule(
         Rule rule,
-         Map<String, Object> message,
-        Map<String, Object> output
+         Map<String, Object> message
     )
     {
         List<Condition> conditions = rule.getConditions();
@@ -75,8 +69,7 @@ public class RuleProcessingService
             action ->
                 this.actionExecutionService.apply(
                     action,
-                    message,
-                    output
+                    message
                 )
         );
     }

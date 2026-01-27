@@ -8,14 +8,9 @@
       "type": "all",
       "comparators": [
           {
-              "field": "user.firstName",
-              "comparatorType": "defined",
-              "value": ""
-          },
-          {
-              "field": "user.lastName",
-              "comparatorType": "defined",
-              "value": ""
+              "field": "user.age",
+              "comparatorType": ">",
+              "value": 18
           }
       ],
       "subconditions": []
@@ -23,9 +18,9 @@
     ],
     "actions": [
       {
-          "field": "user.fullName",
-          "actionType": "update",
-          "expression": "${user.firstName} ${user.lastName}"
+          "field": "user.CanDrink",
+          "actionType": "create",
+          "expression": "YES"
       }
     ]
   }
