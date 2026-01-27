@@ -14,7 +14,6 @@ public enum ComparatorType implements DslEnum
     GREATER_OR_EQUAL(">="),
     LESS_OR_EQUAL("<="),
     CONTAINS("contains"),
-    IN("in"),
     DEFINED("defined"),
     NOT_DEFINED("not_defined");
 

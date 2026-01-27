@@ -6,7 +6,9 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.example.message_processor.rules.comparator.Comparator;
+import com.example.message_processor.rules.comparator.ComparatorEvaluationService;
 
+import jakarta.annotation.Nonnull;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,6 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 public class ConditionEvaluationService {
+
+    @Nonnull
+    private final ComparatorEvaluationService comparatorEvaluationService;
 
     public boolean evaluate(Condition condition, Map<String, Object> message)
     {
@@ -39,6 +44,7 @@ public class ConditionEvaluationService {
             );
             default ->
             {
+                //! Condition type does not exist
                 yield false;
             }
         };
@@ -56,8 +62,9 @@ public class ConditionEvaluationService {
                 .stream()
                 .allMatch(
                     comparator ->
-                        this.evaluateComparator(
-                            comparator
+                        this.comparatorEvaluationService.evaluate(
+                            comparator,
+                            message
                         )
                 );
 
@@ -88,8 +95,9 @@ public class ConditionEvaluationService {
                 .stream()
                 .anyMatch(
                     comparator ->
-                        this.evaluateComparator(
-                            comparator
+                        this.comparatorEvaluationService.evaluate(
+                            comparator,
+                            message
                         )
                 );
 
@@ -120,8 +128,9 @@ public class ConditionEvaluationService {
                 .stream()
                 .noneMatch(
                     comparator ->
-                        this.evaluateComparator(
-                            comparator
+                        this.comparatorEvaluationService.evaluate(
+                            comparator,
+                            message
                         )
                 );
 
@@ -138,10 +147,5 @@ public class ConditionEvaluationService {
                 );
 
         return comparatorsPassCondition && subconditionsPass;
-    }
-
-    private boolean evaluateComparator(Comparator comparator)
-    {
-        return false;
     }
 }
