@@ -2,6 +2,7 @@ package com.example.message_processor.rules.comparator;
 
 import java.lang.reflect.Array;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
@@ -77,7 +78,7 @@ public class ComparatorEvaluationService {
         Object comparatorValue
     )
     {
-       return fieldValue == comparatorValue;
+        return Objects.equals(fieldValue, comparatorValue);
     }
 
     private boolean evaluateNotEquals(
@@ -85,7 +86,7 @@ public class ComparatorEvaluationService {
         Object comparatorValue
     )
     {
-       return fieldValue != comparatorValue;
+       return !this.evaluateEquals(fieldValue, comparatorValue);
     }
 
     private boolean evaluateGreaterThan(
@@ -99,7 +100,7 @@ public class ComparatorEvaluationService {
         )
         {
             // ! Incorrect type check
-            return false;
+            throw new RuntimeException();
         }
 
        return ((Number) fieldValue).doubleValue() > ((Number)comparatorValue).doubleValue();
@@ -116,7 +117,7 @@ public class ComparatorEvaluationService {
         )
         {
             // ! Incorrect type check
-            return false;
+            throw new RuntimeException();
         }
 
        return ((Number) fieldValue).doubleValue() < ((Number)comparatorValue).doubleValue();
@@ -168,15 +169,15 @@ public class ComparatorEvaluationService {
             return false;
         }
 
-        if (comparatorValue.getClass().isArray()) 
+        if (fieldValue.getClass().isArray()) 
         {
-            int length = Array.getLength(comparatorValue);
+            int length = Array.getLength(fieldValue);
             for (int i = 0; i < length; i++)
             {
-                Object item = Array.get(comparatorValue, i);
+                Object item = Array.get(fieldValue, i);
                 if (
                     fieldValue != null &&
-                    fieldValue.equals(item)
+                    comparatorValue.equals(item)
                 )
                 {
                     return true;
@@ -192,7 +193,7 @@ public class ComparatorEvaluationService {
         Object fieldValue
     )
     {
-        return this.evaluateEquals(
+        return !this.evaluateEquals(
             fieldValue,
             null
         );

@@ -58,9 +58,19 @@ public final class FieldPathUtils {
                     nextValue = new HashMap<String, Object>();
                     map.put(key, nextValue);
                 }
-                else 
+                else if(isNotMap(nextValue)) 
                 {
                     // ! Incorrect path exception
+                    throw new RuntimeException(
+                        String.format(
+                            "KYS %s, %s, %s, %b, %b",
+                            nextValue.getClass(),
+                            key,
+                            nextValue,
+                            isNotMap(nextValue),
+                            forceCreatePath
+                        )
+                    );
                 }
                 value = nextValue;
             }
@@ -106,7 +116,7 @@ public final class FieldPathUtils {
 
     // Expected error from the way we cast the value variable
     @SuppressWarnings("unchecked")
-    private static Map<String, Object> castToMap(Object obj) 
+    public static Map<String, Object> castToMap(Object obj) 
     {
         if (obj instanceof Map<?, ?> map)
         {
