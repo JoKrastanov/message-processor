@@ -123,3 +123,14 @@ And is applied to a message:
     }
 
 In the case of CREATE, the new object `location` will be created and the value `city` will be defined. In the case of update, the app will throw an exception as that path is invalid in the current message
+
+
+### Basic example message to start with
+
+    {
+        "user": {
+            "firstName": "Joan",
+            "lastName": "Krastanov",
+            "age": 25
+        }
+    }
