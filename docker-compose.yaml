@@ -44,7 +44,7 @@ services:
       INPUT_TOPIC: incoming-messages
       OUTPUT_TOPIC: output
       HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
-      DATABASE_URL: jdbc:postgresql://postgres:5432/ruleengine
+      DATABASE_URL: jdbc:postgresql://postgres:5432/messageprocessor
       DATABASE_USER: postgres
       DATABASE_PASSWORD: postgres
     depends_on:
