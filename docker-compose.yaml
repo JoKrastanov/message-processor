@@ -28,8 +28,8 @@ services:
     ports:
       - "9093:8080"
     environment:
-      - KAFKA_CLUSTERS_0_NAME=local
-      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
     depends_on:
       - kafka
 
@@ -43,5 +43,22 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       INPUT_TOPIC: incoming-messages
       OUTPUT_TOPIC: output
+      HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      DATABASE_URL: jdbc:postgresql://postgres:5432/ruleengine
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
     depends_on:
       - kafka
+      - database
+
+  database:
+    image: 'postgres:latest'
+    container_name: postgres
+
+    ports:
+      - 5432:5432
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: messageprocessor

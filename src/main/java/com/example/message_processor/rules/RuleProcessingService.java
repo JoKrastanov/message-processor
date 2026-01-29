@@ -1,10 +1,12 @@
 package com.example.message_processor.rules;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.example.message_processor.messaging.repository.Message;
 import com.example.message_processor.rules.action.Action;
 import com.example.message_processor.rules.action.ActionExecutionService;
 import com.example.message_processor.rules.condition.Condition;
@@ -28,7 +30,10 @@ public class RuleProcessingService
     @Nonnull
     private final RuleLoaderService ruleLoaderService;
 
-    public void applyRules(Map<String, Object> message)
+    public void applyRules(
+        Map<String, Object> message,
+        Message processedMessage
+    )
     {
         log.info("Loading rule-set");
         List<Rule> rules = ruleLoaderService.getRules();
@@ -37,14 +42,16 @@ public class RuleProcessingService
             rule ->
                 this.applyRule(
                     rule,
-                    message
+                    message,
+                    processedMessage
                 )
         );
     }
 
     private void applyRule(
         Rule rule,
-         Map<String, Object> message
+        Map<String, Object> message,
+        Message processedMessage
     )
     {
         List<Condition> conditions = rule.getConditions();
@@ -67,10 +74,20 @@ public class RuleProcessingService
         List<Action> actions = rule.getActions();
         actions.forEach(
             action ->
+            {
                 this.actionExecutionService.apply(
                     action,
                     message
-                )
+                );
+                
+                // After each rule is applied, update the message in the db
+                processedMessage.setLast_update(LocalDateTime.now());
+                processedMessage.setCurrentMessage(message);
+            }
         );
+
+        // After all rules have been applied update the status and time of processing in the db
+        processedMessage.setStatus("COMPLETED");
+        processedMessage.setTime_processed(LocalDateTime.now());
     }
 }
