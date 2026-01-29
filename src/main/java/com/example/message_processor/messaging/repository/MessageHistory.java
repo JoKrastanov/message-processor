@@ -6,13 +6,14 @@ import java.util.Map;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,18 +21,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "messages")
+@Table(name = "message_history")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Message {
+public class MessageHistory
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String uuid;
+    private String messageUuid;
+
+    @Column(nullable = false)
+    private int version;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(nullable = false)
@@ -39,31 +44,17 @@ public class Message {
     
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(nullable = false)
-    private Map<String, Object> currentMessage;
-    
+    private Map<String, Object> processedMessage;
+
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(nullable = false)
-    private String status; // PROCESSING, COMPLETED, FAILED
-    
-    @Column
-    private String errorMessage;
-    
-    @Column(nullable = false)
-    private LocalDateTime time_received;
-    
+    private JsonNode messageDelta;
+
     @Column
     private LocalDateTime time_processed;
     
-    @Column(nullable = false)
-    private LocalDateTime last_update;
-    
     @PrePersist
     protected void onCreate() {
-        this.time_received = LocalDateTime.now();
-        this.last_update = LocalDateTime.now();
-    }
-    
-    @PreUpdate
-    protected void onUpdate() {
-        this.last_update = LocalDateTime.now();
+        this.time_processed = LocalDateTime.now();
     }
 }

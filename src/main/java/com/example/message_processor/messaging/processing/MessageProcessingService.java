@@ -3,6 +3,7 @@ package com.example.message_processor.messaging.processing;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+import org.apache.kafka.common.Uuid;
 import org.springframework.stereotype.Service;
 
 import com.example.message_processor.messaging.producer.MessageProducer;
@@ -32,6 +33,9 @@ public class MessageProcessingService
 
     @Nonnull
     private final MessageRepository messageRepository;
+
+    @Nonnull
+    private final MessageHistoryService messageDeltaService;
     
     public void processMessage(String message)
     {
@@ -71,6 +75,7 @@ public class MessageProcessingService
     private Message generateProcessedMessage(Map<String , Object> message)
     {
         return Message.builder()
+            .uuid(Uuid.randomUuid().toString())
             .originalMessage(message)
             .status("PROCESSING")
             .time_received(LocalDateTime.now())

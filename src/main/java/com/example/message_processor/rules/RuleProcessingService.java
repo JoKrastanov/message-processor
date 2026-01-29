@@ -6,7 +6,9 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.example.message_processor.messaging.processing.MessageHistoryService;
 import com.example.message_processor.messaging.repository.Message;
+import com.example.message_processor.messaging.utils.Utils;
 import com.example.message_processor.rules.action.Action;
 import com.example.message_processor.rules.action.ActionExecutionService;
 import com.example.message_processor.rules.condition.Condition;
@@ -29,6 +31,9 @@ public class RuleProcessingService
 
     @Nonnull
     private final RuleLoaderService ruleLoaderService;
+
+    @Nonnull
+    private final MessageHistoryService messageDeltaService;
 
     public void applyRules(
         Map<String, Object> message,
@@ -75,8 +80,17 @@ public class RuleProcessingService
         actions.forEach(
             action ->
             {
+                Map<String, Object> messageBeforeAction = 
+                    Utils.deepCopy(message);
+
                 this.actionExecutionService.apply(
                     action,
+                    message
+                );
+
+                this.messageDeltaService.computeMessageDelta(
+                    processedMessage.getUuid(),
+                    messageBeforeAction,
                     message
                 );
                 
