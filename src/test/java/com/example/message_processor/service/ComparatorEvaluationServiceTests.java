@@ -103,7 +103,7 @@ public class ComparatorEvaluationServiceTests
         );
 
         assertThrows(
-            RuntimeException.class,
+            IllegalArgumentException.class,
             () ->
                 this.evaluate(testComparator, message)
         );
@@ -139,7 +139,7 @@ public class ComparatorEvaluationServiceTests
         );
 
         assertThrows(
-            RuntimeException.class,
+            IllegalArgumentException.class,
             () ->
                 this.evaluate(testComparator, message)
         );

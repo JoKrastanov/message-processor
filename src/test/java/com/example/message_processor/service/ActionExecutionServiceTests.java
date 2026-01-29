@@ -97,7 +97,7 @@ public class ActionExecutionServiceTests {
         );
 
         assertThrows(
-            RuntimeException.class,
+            IllegalArgumentException.class,
             () ->
                 this.apply(
                     testAction,

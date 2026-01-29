@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 
 import org.springframework.stereotype.Service;
 
+import com.example.message_processor.exception.IllegalDslValueException;
 import com.example.message_processor.rules.utils.FieldPathUtils;
 import com.example.message_processor.rules.utils.StringPatternMatcher;
 
@@ -48,8 +49,10 @@ public class ActionExecutionService {
                 break;
             default:
             {
-                // ! Action type does not exist
-                throw new RuntimeException();
+                throw new IllegalDslValueException(
+                    "action",
+                    action.getActionType().getValue()
+                );
             }
         }
     }

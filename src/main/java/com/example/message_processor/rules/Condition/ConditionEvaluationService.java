@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.example.message_processor.exception.IllegalDslValueException;
 import com.example.message_processor.rules.comparator.Comparator;
 import com.example.message_processor.rules.comparator.ComparatorEvaluationService;
 
@@ -44,8 +45,10 @@ public class ConditionEvaluationService {
             );
             default ->
             {
-                //! Condition type does not exist
-                yield false;
+                throw new IllegalDslValueException(
+                    "condition",
+                    condition.getType().getValue()
+                );
             }
         };
     }

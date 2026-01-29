@@ -60,15 +60,10 @@ public final class FieldPathUtils {
                 }
                 else if(isNotMap(nextValue)) 
                 {
-                    // ! Incorrect path exception
-                    throw new RuntimeException(
+                    throw new IllegalArgumentException(
                         String.format(
-                            "KYS %s, %s, %s, %b, %b",
-                            nextValue.getClass(),
-                            key,
-                            nextValue,
-                            isNotMap(nextValue),
-                            forceCreatePath
+                            "Path %s does not exist, try using action type CREATE instead",
+                            field
                         )
                     );
                 }
@@ -114,7 +109,7 @@ public final class FieldPathUtils {
         return !(obj instanceof Map);
     }
 
-    // Expected error from the way we cast the value variable
+    // Expected warning from the way we cast the value variable
     @SuppressWarnings("unchecked")
     public static Map<String, Object> castToMap(Object obj) 
     {

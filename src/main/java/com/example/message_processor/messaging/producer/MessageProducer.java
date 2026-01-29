@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+import com.example.message_processor.exception.MessageException;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,8 +44,12 @@ public class MessageProducer
         }
         catch (Exception e)
         {
-            log.error("Error sending message");
-            throw new RuntimeException(e);
+            throw new MessageException(
+                String.format(
+                    "Error sending message %s",
+                    payload.toString()
+                )
+            );
         }
     }
 }

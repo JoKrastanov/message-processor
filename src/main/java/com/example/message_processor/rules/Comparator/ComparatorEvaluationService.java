@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
+import com.example.message_processor.exception.IllegalDslValueException;
 import com.example.message_processor.rules.utils.FieldPathUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -67,8 +68,10 @@ public class ComparatorEvaluationService {
             );
             default ->
             {
-                //! Comparator type does not exist
-                yield false;
+                throw new IllegalDslValueException(
+                    "comparator",
+                    comparator.getComparatorType().getValue()
+                );
             }
         };
     }
@@ -99,8 +102,13 @@ public class ComparatorEvaluationService {
             !(comparatorValue instanceof Number)
         )
         {
-            // ! Incorrect type check
-            throw new RuntimeException();
+            throw new IllegalArgumentException(
+                String.format(
+                    "Illegal type provided for value %s. Expected number, but got %s",
+                    fieldValue,
+                    fieldValue.getClass().getName()
+                )
+            );
         }
 
        return ((Number) fieldValue).doubleValue() > ((Number)comparatorValue).doubleValue();
@@ -116,8 +124,13 @@ public class ComparatorEvaluationService {
             !(comparatorValue instanceof Number)
         )
         {
-            // ! Incorrect type check
-            throw new RuntimeException();
+            throw new IllegalArgumentException(
+                String.format(
+                    "Illegal type provided for value %s. Expected number, but got %s",
+                    fieldValue,
+                    fieldValue.getClass().getName()
+                )
+            );
         }
 
        return ((Number) fieldValue).doubleValue() < ((Number)comparatorValue).doubleValue();
