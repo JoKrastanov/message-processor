@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.kafka.common.Uuid;
 import org.springframework.stereotype.Service;
 
+import com.example.message_processor.exception.MessageException;
 import com.example.message_processor.messaging.producer.MessageProducer;
 import com.example.message_processor.messaging.repository.Message;
 import com.example.message_processor.messaging.repository.MessageRepository;
@@ -41,6 +42,7 @@ public class MessageProcessingService
     {
         try
         {
+            log.info("Processing message: ", message);
             Map<String, Object> parsedMessage =
                 this.objectMapper.readValue(
                     message,
@@ -67,8 +69,13 @@ public class MessageProcessingService
         }
         catch(Exception e)
         {
-            log.error("Error processing message ;(", e);
-            // TODO: Throw error processing message
+            throw new MessageException(
+                String.format(
+                    "Error processing message %s, %s",
+                    message,
+                    e.getMessage()
+                )
+            );
         }
     }
 

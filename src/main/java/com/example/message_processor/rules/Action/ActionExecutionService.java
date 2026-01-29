@@ -20,6 +20,14 @@ public class ActionExecutionService {
         Map<String, Object> message
     )
     {
+        log.info(
+            String.format(
+                "Executing action %s %s for message: %s",
+                action.getActionType().getValue(),
+                action.getField(),
+                message.toString()
+            )
+        );
         String field = action.getField();
         String expression = this.applyExpressionIfNecessary(
             action.getExpression(),

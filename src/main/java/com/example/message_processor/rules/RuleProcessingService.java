@@ -42,7 +42,7 @@ public class RuleProcessingService
     {
         log.info("Loading rule-set");
         List<Rule> rules = ruleLoaderService.getRules();
-        log.info("Applying rules to message");
+        log.info("Applying rules to message: ", message);
         rules.forEach(
             rule ->
                 this.applyRule(
@@ -59,6 +59,13 @@ public class RuleProcessingService
         Message processedMessage
     )
     {
+        log.info(
+            String.format(
+                "Applying rule: %s to message: %s",
+                rule.getName(),
+                message.toString()
+            )
+        );
         List<Condition> conditions = rule.getConditions();
         Boolean allConditionsPass = 
             conditions
@@ -73,6 +80,13 @@ public class RuleProcessingService
                 
         if (!allConditionsPass)
         {
+            log.info(
+                String.format(
+                    "Not all conditions passed. Skipping rule: %s for message: %s",
+                    rule.getName(),
+                    message.toString()
+                )
+            );
             return;
         }
 

@@ -42,10 +42,7 @@ public class Message {
     private Map<String, Object> currentMessage;
     
     @Column(nullable = false)
-    private String status; // PROCESSING, COMPLETED, FAILED
-    
-    @Column
-    private String errorMessage;
+    private String status; // PROCESSING, COMPLETED
     
     @Column(nullable = false)
     private LocalDateTime time_received;
