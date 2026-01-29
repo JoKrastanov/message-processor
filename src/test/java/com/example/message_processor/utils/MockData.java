@@ -11,6 +11,7 @@ public class MockData {
         message.put("user", userObject);
 
         userObject.put("name", "Joan");
+        userObject.put("lastName", "Krastanov");
         userObject.put("age", 23);
         userObject.put("nationality", "Bulgarian");
 

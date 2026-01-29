@@ -130,4 +130,29 @@ public class ActionExecutionServiceTests {
             userMap.get("name")
         );
     }
+
+    @Test
+    void testAction_applyCreateWithComputedField()
+    {
+        Map<String, Object> message = MockData.generate();
+        Action testAction = new Action(
+            "user.fullName",
+            ActionType.CREATE,
+            "${user.name} ${user.lastName}"
+        );
+
+        this.apply(
+            testAction,
+            message
+        );
+
+        Map<String, Object> userMap = FieldPathUtils.castToMap(
+            message.get("user")
+        );
+
+        assertEquals(
+            "Joan Krastanov",
+            userMap.get("fullName")
+        );
+    }
 }

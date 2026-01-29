@@ -21,6 +21,21 @@
           "field": "user.CanDrink",
           "actionType": "create",
           "expression": "YES"
+      },
+      {
+          "field": "user.CanDrive",
+          "actionType": "create",
+          "expression": "YES"
+      },
+      {
+          "field": "user.CanDrinkAndDrive",
+          "actionType": "create",
+          "expression": "NOO"
+      },
+      {
+          "field": "user.fullName",
+          "actionType": "create",
+          "expression": "${user.firstName} ${user.lastName}"
       }
     ]
   }
