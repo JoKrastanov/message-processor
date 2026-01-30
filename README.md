@@ -12,7 +12,6 @@ This is a simple backend application that takes a rule set and applies it to all
 
 * Kafka - used for consuming and producing messages
 * KafkaUI - easy overview of all the data within Kafka as well as creating messages through a user-friendly interface
-* Zookeeper - 
 
 ### How to run the application
 
