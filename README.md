@@ -124,6 +124,11 @@ And is applied to a message:
 
 In the case of CREATE, the new object `location` will be created and the value `city` will be defined. In the case of update, the app will throw an exception as that path is invalid in the current message
 
+### 4.2 Expressions
+In order to use more complex values, you can pass variables in the expression field
+    
+    "expression": "${user.firstName} ${user.lastName}"
+Values must be surrounded by `${}` and valid paths in the message.
 
 ### Basic example message to start with
 
